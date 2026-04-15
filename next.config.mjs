@@ -4,6 +4,14 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Prevent clickjacking: do not allow framing by third-party sites (login, dashboard, etc.).
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+        ],
+      },
+      {
         // matching all API routes
         source: "/api/:path*",
         headers: [
